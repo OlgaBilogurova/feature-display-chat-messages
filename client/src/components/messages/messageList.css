@@ -1,0 +1,9 @@
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    margin: 0 auto;
+    padding: 10px;
+    max-width: 800px;
+    text-align: left;
+}
