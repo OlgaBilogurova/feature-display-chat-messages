@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './messageList.css';
-import { messages } from '../../data.json';
+import { messages } from '../../../data.json';
 import Message from './message';
 
 const MessageList = () => {
