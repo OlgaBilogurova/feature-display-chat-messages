@@ -19,9 +19,12 @@ const MessageList = () => {
     }
 
     function sortMessagesByDate(messages) {
-        // TODO need to sort messages by `sentAt` by default in ascending order
-        setSortedMessages([...messages]);
-        selectMessagesForCurrentPage(1, messages);
+        let msgArr = [...messages];
+        msgArr.sort(function (a, b) {
+            return new Date(b.sentAt) - new Date(a.sentAt);
+        });
+        setSortedMessages([...msgArr]);
+        selectMessagesForCurrentPage(1, msgArr);
     }
 
     function selectMessagesForCurrentPage(page, messages) {
