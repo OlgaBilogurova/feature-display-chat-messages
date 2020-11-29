@@ -1,9 +1,57 @@
-.messages-container {
+.page-container {
     display: flex;
-    flex-direction: column;
-    list-style-type: none;
-    margin: 0 auto;
+    justify-content: center;
     padding: 10px;
-    max-width: 800px;
+    max-width: 720px;
+    width: 100%;
+    flex-flow: column;
+    margin: 0 auto;
+}
+
+.messages-container {
+    list-style-type: none;
     text-align: left;
+    padding: 0;
+    margin: 20px auto;
+}
+
+.sort-container {
+    display: block;
+    text-align: right;
+}
+
+.sort-text-default {
+    font-style: italic;
+    display: block;
+    color: slateblue;
+    font-size: 15px;
+    margin-top: 5px;
+}
+
+.sort-btn {
+    background-color: #FFFFFF;
+    color: #575353;
+    font-size: 15px;
+    border: 1px solid #959595;
+    border-radius: 40px;
+    line-height: 1;
+    padding: 5px 15px;
+    text-decoration: none;
+    margin: 0 0 0 5px;
+    outline: none;
+    transition: .3s ease;
+    cursor: pointer;
+}
+
+.sort-btn:hover {
+    background-color: #cccccc;
+    border-color: #cccccc;
+    color: #FFFFFF;
+}
+
+.sort-btn:disabled {
+     border-color: lightgray;
+     background-color: #FFFFFF;
+     color: lightgray;
+     cursor: default;
 }
