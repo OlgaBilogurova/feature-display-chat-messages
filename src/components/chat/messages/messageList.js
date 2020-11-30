@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import './messageList.css';
 import { messages } from '../../../data.json';
 import Message from './message';
+import Pagination from '../pagination/pagination';
 
 const MessageList = () => {
     const amountOfMessages = 5;
     const [sortedMessages, setSortedMessages] = useState([]); // by default sorted by newest
     const [currentPageMessages, setCurrentPageMessages] = useState([]);
     const [sortedByNewest, setSortedByNewest] = useState(true);
+    const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
 
     function deduplicateMessages(messages) {
         let uniqueMessages = messages.filter(
@@ -29,14 +32,20 @@ const MessageList = () => {
 
         setSortedMessages([...msgArr]);
         selectMessagesForCurrentPage(1, msgArr, true);
+        defineTotalPages(msgArr.length);
     }
 
     function selectMessagesForCurrentPage(page, messages, displayNewest) {
         let curMessages = [];
 
         if (displayNewest) {
-            curMessages = messages.slice(page - 1, amountOfMessages);
-        } else {
+            curMessages = messages.slice(
+                page * amountOfMessages - amountOfMessages,
+                page * amountOfMessages
+            );
+        }
+
+        if (!displayNewest) {
             // Slice method is used from the end of already sorted array to avoid sorting backward
             if (page === 1) {
                 curMessages = messages.slice(-(page * amountOfMessages));
@@ -51,9 +60,21 @@ const MessageList = () => {
         setCurrentPageMessages([...curMessages]);
     }
 
+    function defineTotalPages(totalMessages) {
+        if (totalMessages > amountOfMessages) {
+            setTotalPages(Math.ceil(totalMessages / amountOfMessages));
+        }
+    }
+
     function handleClickButton(sortByNewest) {
         selectMessagesForCurrentPage(1, sortedMessages, sortByNewest);
         setSortedByNewest(!sortedByNewest);
+        setCurrentPage(1);
+    }
+
+    function changePage(page) {
+        setCurrentPage(page);
+        selectMessagesForCurrentPage(page, sortedMessages, sortedByNewest);
     }
 
     useEffect(() => {
@@ -63,7 +84,7 @@ const MessageList = () => {
     return (
         <div className="page-container">
             <h1>Chat</h1>
-            {currentPageMessages ? (
+            {currentPageMessages.length ? (
                 <div>
                     <div className="sort-container">
                         <span className="sort-text">Sort by: </span>
@@ -96,6 +117,12 @@ const MessageList = () => {
                             />
                         ))}
                     </ul>
+
+                    <Pagination
+                        totalPages={totalPages}
+                        currentPage={currentPage}
+                        changePage={changePage}
+                    />
                 </div>
             ) : (
                 <h3>Message box is empty</h3>
