@@ -23,7 +23,7 @@ const Pagination = ({ totalPages, currentPage, changePage }) => {
 
     useEffect(() => {
         handleChangePage(currentPage);
-    }, [totalPages, currentPage]);
+    }, [totalPages, currentPage]); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="pagination-container">

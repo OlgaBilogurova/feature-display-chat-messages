@@ -100,7 +100,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
 
     useEffect(() => {
         deduplicateMessages(data);
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <div className="page-container" data-testid="page-container">
