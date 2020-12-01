@@ -8,7 +8,7 @@ afterEach(() => {
 });
 
 describe('MessageList Component', () => {
-    test('Should render component with empty array', () => {
+    test('Should render component when there are no messages', () => {
         render(<MessageList data={[]} />, { wrapper: BrowserRouter });
         expect(screen.getByTestId('page-container')).toBeInTheDocument();
         expect(screen.getByText('Message box is empty')).toBeInTheDocument();

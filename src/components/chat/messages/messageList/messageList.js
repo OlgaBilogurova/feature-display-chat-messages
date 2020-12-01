@@ -8,7 +8,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
     const amountOfMessages = 5;
     const [sortedMessages, setSortedMessages] = useState([]); // by default sorted by newest
     const [currentPageMessages, setCurrentPageMessages] = useState([]);
-    const [sortedByNewest, setSortedByNewest] = useState(true);
+    const [isSortedByNewest, setIsSortedByNewest] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     onChange(sortedMessages);
@@ -16,10 +16,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
     function deduplicateMessages(messages) {
         let uniqueMessages = messages.filter(
             (msg, index, self) =>
-                index ===
-                self.findIndex(
-                    (el) => el.uuid === msg.uuid && el.content === msg.content
-                )
+                index === self.findIndex((e) => e.uuid === msg.uuid && e.content === msg.content)
         );
         sortMessagesByDate(uniqueMessages);
     }
@@ -44,9 +41,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
                 page * amountOfMessages - amountOfMessages,
                 page * amountOfMessages
             );
-        }
-
-        if (!displayNewest) {
+        } else {
             // Slice method is used from the end of already sorted array to avoid sorting backward
             if (page === 1) {
                 curMessages = messages.slice(-(page * amountOfMessages));
@@ -56,7 +51,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
                     -(page * amountOfMessages - amountOfMessages)
                 );
             }
-            curMessages.reverse();
+            curMessages.reverse(); // to display messages in proper order
         }
         setCurrentPageMessages([...curMessages]);
     }
@@ -71,13 +66,13 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
 
     function handleSortButton(sortByNewest) {
         selectMessagesForCurrentPage(1, sortedMessages, sortByNewest);
-        setSortedByNewest(!sortedByNewest);
+        setIsSortedByNewest(!isSortedByNewest);
         setCurrentPage(1);
     }
 
     function changePage(page) {
         setCurrentPage(page);
-        selectMessagesForCurrentPage(page, sortedMessages, sortedByNewest);
+        selectMessagesForCurrentPage(page, sortedMessages, isSortedByNewest);
     }
 
     function removeMessage(message) {
@@ -91,7 +86,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
 
         // recalculate total pages
         if (currentPageMessages.length > 1) {
-            selectMessagesForCurrentPage(currentPage, arr, sortedByNewest);
+            selectMessagesForCurrentPage(currentPage, arr, isSortedByNewest);
         } else {
             changePage(currentPage - 1);
         }
@@ -112,18 +107,18 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
                         <button
                             onClick={() => handleSortButton(true)}
                             className="sort-btn"
-                            disabled={sortedByNewest}
+                            disabled={isSortedByNewest}
                         >
                             newest
                         </button>
                         <button
                             onClick={() => handleSortButton(false)}
                             className="sort-btn"
-                            disabled={!sortedByNewest}
+                            disabled={!isSortedByNewest}
                         >
                             oldest
                         </button>
-                        {sortedByNewest ? (
+                        {isSortedByNewest ? (
                             <span className="sort-text-default">sorted by newest</span>
                         ) : (
                             <span className="sort-text-default">sorted by oldest</span>
