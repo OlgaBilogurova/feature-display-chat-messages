@@ -4,13 +4,14 @@ import { messages } from '../../../data.json';
 import Message from './message';
 import Pagination from '../pagination/pagination';
 
-const MessageList = () => {
+const MessageList = ({data = messages, onChange = () => {}}) => {
     const amountOfMessages = 5;
     const [sortedMessages, setSortedMessages] = useState([]); // by default sorted by newest
     const [currentPageMessages, setCurrentPageMessages] = useState([]);
     const [sortedByNewest, setSortedByNewest] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
+    onChange(sortedMessages);
 
     function deduplicateMessages(messages) {
         let uniqueMessages = messages.filter(
@@ -63,6 +64,8 @@ const MessageList = () => {
     function defineTotalPages(totalMessages) {
         if (totalMessages > amountOfMessages) {
             setTotalPages(Math.ceil(totalMessages / amountOfMessages));
+        } else {
+            setTotalPages(1);
         }
     }
 
@@ -86,23 +89,25 @@ const MessageList = () => {
         }
         setSortedMessages([...arr]);
 
+        // recalculate total pages
         if (currentPageMessages.length > 1) {
             selectMessagesForCurrentPage(currentPage, arr, sortedByNewest);
         } else {
             changePage(currentPage - 1);
         }
+        defineTotalPages(arr.length);
     }
 
     useEffect(() => {
-        deduplicateMessages(messages);
+        deduplicateMessages(data);
     }, []);
 
     return (
-        <div className="page-container">
+        <div className="page-container" data-testid="page-container">
             <h1>Chat</h1>
             {currentPageMessages.length ? (
                 <div>
-                    <div className="sort-container">
+                    <div className="sort-container" data-testid="sort-container">
                         <span className="sort-text">Sort by: </span>
                         <button
                             onClick={() => handleSortButton(true)}
@@ -125,7 +130,7 @@ const MessageList = () => {
                         )}
                     </div>
 
-                    <ul className="messages-container">
+                    <ul className="messages-container" data-testid="messages-container">
                         {currentPageMessages.map((message) => (
                             <Message
                                 key={`${message.uuid}-${message.sentAt}`}
