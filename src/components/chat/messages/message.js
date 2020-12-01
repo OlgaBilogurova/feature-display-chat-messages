@@ -12,7 +12,7 @@ const Message = ({ message, handleRemoveMessage }) => {
     }
 
     return (
-        <li className="message-item">
+        <li className="message-item" data-testid={`${message.uuid}-${message.sentAt}`}>
             <div className="message-icon" />
             <div className="message-info">
                 <div className="message-sender">{message.senderUuid},</div>
