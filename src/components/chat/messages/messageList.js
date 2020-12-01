@@ -66,7 +66,7 @@ const MessageList = () => {
         }
     }
 
-    function handleClickButton(sortByNewest) {
+    function handleSortButton(sortByNewest) {
         selectMessagesForCurrentPage(1, sortedMessages, sortByNewest);
         setSortedByNewest(!sortedByNewest);
         setCurrentPage(1);
@@ -105,14 +105,14 @@ const MessageList = () => {
                     <div className="sort-container">
                         <span className="sort-text">Sort by: </span>
                         <button
-                            onClick={() => handleClickButton(true)}
+                            onClick={() => handleSortButton(true)}
                             className="sort-btn"
                             disabled={sortedByNewest}
                         >
                             newest
                         </button>
                         <button
-                            onClick={() => handleClickButton(false)}
+                            onClick={() => handleSortButton(false)}
                             className="sort-btn"
                             disabled={!sortedByNewest}
                         >
