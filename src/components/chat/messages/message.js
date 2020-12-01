@@ -1,7 +1,7 @@
 import React from 'react';
 import './message.css';
 
-const Message = ({ message }) => {
+const Message = ({ message, handleRemoveMessage }) => {
     const options = {
         weekday: 'short',
         month: "short",
@@ -21,6 +21,7 @@ const Message = ({ message }) => {
                 </div>
                 <div className="message-content">{message.content}</div>
             </div>
+            <button className='message-delete-btn' onClick={() => handleRemoveMessage(message)}>X</button>
         </li>
     );
 };

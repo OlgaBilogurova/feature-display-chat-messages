@@ -77,6 +77,22 @@ const MessageList = () => {
         selectMessagesForCurrentPage(page, sortedMessages, sortedByNewest);
     }
 
+    function removeMessage(message) {
+        let arr = [...sortedMessages];
+        for (let i = 0; i < arr.length; i++) {
+            if (message.uuid === arr[i].uuid && message.content === arr[i].content) {
+                arr.splice(i, 1);
+            }
+        }
+        setSortedMessages([...arr]);
+
+        if (currentPageMessages.length > 1) {
+            selectMessagesForCurrentPage(currentPage, arr, sortedByNewest);
+        } else {
+            changePage(currentPage - 1);
+        }
+    }
+
     useEffect(() => {
         deduplicateMessages(messages);
     }, []);
@@ -114,6 +130,7 @@ const MessageList = () => {
                             <Message
                                 key={`${message.uuid}-${message.sentAt}`}
                                 message={message}
+                                handleRemoveMessage={removeMessage}
                             />
                         ))}
                     </ul>
