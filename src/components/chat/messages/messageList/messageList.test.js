@@ -9,7 +9,7 @@ afterEach(() => {
 
 describe('MessageList Component', () => {
     test('Should render component when there are no messages', () => {
-        render(<MessageList data={[]} />, { wrapper: BrowserRouter });
+        render(<MessageList messages={[]} />, { wrapper: BrowserRouter });
         expect(screen.getByTestId('page-container')).toBeInTheDocument();
         expect(screen.getByText('Message box is empty')).toBeInTheDocument();
     });
@@ -29,7 +29,7 @@ describe('MessageList Component', () => {
                 senderUuid: '2',
             },
         ];
-        render(<MessageList data={messages} />, { wrapper: BrowserRouter });
+        render(<MessageList messages={messages} />, { wrapper: BrowserRouter });
         expect(screen.getByTestId('messages-container')).toBeInTheDocument();
         expect(
             screen.getByTestId(`${messages[0].uuid}-${messages[0].sentAt}`)
@@ -55,7 +55,7 @@ describe('MessageList Component', () => {
                 senderUuid: '2',
             },
         ];
-        render(<MessageList data={messages} onChange={(v) => (result = v)} />, {
+        render(<MessageList messages={messages} onChange={(v) => (result = v)} />, {
             wrapper: BrowserRouter,
         });
         expect(result.length).toEqual(1);
@@ -83,7 +83,7 @@ describe('MessageList Component', () => {
                 senderUuid: '2',
             },
         ];
-        render(<MessageList data={messages} onChange={(v) => (result = v)} />, {
+        render(<MessageList messages={messages} onChange={(v) => (result = v)} />, {
             wrapper: BrowserRouter,
         });
         expect(result.length).toEqual(3);
@@ -108,7 +108,7 @@ describe('MessageList Component', () => {
                 senderUuid: '2',
             },
         ];
-        render(<MessageList data={messages} onChange={(v) => (result = v)} />, {
+        render(<MessageList messages={messages} onChange={(v) => (result = v)} />, {
             wrapper: BrowserRouter,
         });
         const messageItem = screen.getByTestId(

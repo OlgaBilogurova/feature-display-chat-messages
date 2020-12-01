@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './messageList.css';
-import { messages } from '../../../../data.json';
 import Message from '../message/message';
 import Pagination from '../../pagination/pagination';
 
-const MessageList = ({data = messages, onChange = () => {}}) => {
+const MessageList = ({messages, onChange = () => {}}) => {
     const amountOfMessages = 5;
     const [sortedMessages, setSortedMessages] = useState([]); // by default sorted by newest
     const [currentPageMessages, setCurrentPageMessages] = useState([]);
@@ -94,7 +93,7 @@ const MessageList = ({data = messages, onChange = () => {}}) => {
     }
 
     useEffect(() => {
-        deduplicateMessages(data);
+        deduplicateMessages(messages);
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
