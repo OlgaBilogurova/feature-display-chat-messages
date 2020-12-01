@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import MessageList from './components/chat/messages/messageList';
+import MessageList from './components/chat/messages/messageList/messageList';
 
 function App() {
   return (
